@@ -65,6 +65,8 @@ h1 .p{color:var(--apple)} h1 .k{color:#9A5B2E}
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .seg.seg4{grid-template-columns:repeat(4,1fr)}
 .seg4 button{font-size:15px}
+.seg.seg5{grid-template-columns:repeat(5,1fr);gap:6px}
+.seg5 button{font-size:13px;padding-inline:2px}
 .seg button{background:var(--card);border-radius:18px;padding:12px 6px;font-size:17px;box-shadow:0 4px 0 #E8D59E;transition:transform .08s}
 .seg button[aria-pressed="true"]{background:var(--ink);color:#fff;box-shadow:0 4px 0 #120E2A}
 .seg button:active{transform:translateY(3px);box-shadow:0 1px 0 #E8D59E}
@@ -149,10 +151,11 @@ h1 .p{color:var(--apple)} h1 .k{color:#9A5B2E}
     </div>
     <div class="group">
       <span class="label">かずの おおきさ</span>
-      <div class="seg seg4" id="rangeSeg">
-        <button id="r-5" data-v="5" aria-pressed="false"><span class="sym">5</span>まで</button>
+      <div class="seg seg5" id="rangeSeg">
         <button id="r-10" data-v="10" aria-pressed="true"><span class="sym">10</span>まで</button>
         <button id="r-20" data-v="20" aria-pressed="false"><span class="sym">20</span>まで</button>
+        <button id="r-30" data-v="30" aria-pressed="false"><span class="sym">30</span>まで</button>
+        <button id="r-40" data-v="40" aria-pressed="false"><span class="sym">40</span>まで</button>
         <button id="r-50" data-v="50" aria-pressed="false"><span class="sym">50</span>まで</button>
       </div>
     </div>
