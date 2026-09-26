@@ -65,6 +65,8 @@ h1 .p{color:var(--apple)} h1 .k{color:#9A5B2E}
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .seg.seg4{grid-template-columns:repeat(4,1fr)}
 .seg4 button{font-size:15px}
+.seg .sym.apples{font-size:13px;line-height:1.15}
+#countSeg .sym{font-size:13px;min-height:30px;display:flex;align-items:center;justify-content:center;letter-spacing:-2px}
 .seg.seg5{grid-template-columns:repeat(5,1fr);gap:6px}
 .seg5 button{font-size:13px;padding-inline:2px}
 .seg.seg6{grid-template-columns:repeat(6,1fr);gap:5px}
@@ -172,6 +174,15 @@ h1 .p{color:var(--apple)} h1 .k{color:#9A5B2E}
         <button id="s-4" data-v="1.9" aria-pressed="false"><span class="sym">🚀</span>ロケット</button>
       </div>
     </div>
+    <div class="group">
+      <span class="label">りんごの かず</span>
+      <div class="seg seg4" id="countSeg">
+        <button id="n-2" data-v="2" aria-pressed="false"><span class="sym">🍎🍎</span>2こ</button>
+        <button id="n-3" data-v="3" aria-pressed="true"><span class="sym">🍎🍎🍎</span>3こ</button>
+        <button id="n-4" data-v="4" aria-pressed="false"><span class="sym apples">🍎🍎<br>🍎🍎</span>4こ</button>
+        <button id="n-5" data-v="5" aria-pressed="false"><span class="sym apples">🍎🍎🍎<br>🍎🍎</span>5こ</button>
+      </div>
+    </div>
     <label class="toggle" for="hintToggle">
       <input type="checkbox" id="hintToggle" checked>
       ●● で かずを みせる（ヒント）
@@ -228,7 +239,8 @@ h1 .p{color:var(--apple)} h1 .k{color:#9A5B2E}
   let mode="add", range=10, speedMul=1;
 
   // ---------- storage ----------
-  const key = () => `ringo-best-${mode}-${range}`;
+  let appleCount=3;
+  const key = () => `ringo-best-${mode}-${range}` + (appleCount===3 ? "" : `-n${appleCount}`);
   function getBest(){ try{ return +(localStorage.getItem(key())||0); }catch(e){ return 0; } }
   function setBest(v){ try{ localStorage.setItem(key(), v); }catch(e){} }
 
@@ -262,6 +274,7 @@ h1 .p{color:var(--apple)} h1 .k{color:#9A5B2E}
   wireSeg("modeSeg",v=>mode=v);
   wireSeg("rangeSeg",v=>range=+v);
   wireSeg("speedSeg",v=>speedMul=+v);
+  wireSeg("countSeg",v=>appleCount=+v);
   function updateStart(){
     const b=getBest();
     $("bestLine").innerHTML = b ? `このコースの じこベスト：<b>${b}</b> こ` : "はじめての コース！";
@@ -464,9 +477,10 @@ h1 .p{color:var(--apple)} h1 .k{color:#9A5B2E}
   }
   function spawnWave(){
     const {w,h}=size, r=G.r;
-    const vals=makeChoices(G.q.ans,3);
-    const lanes=shuffle([0,1,2]);
-    const laneW=w/3;
+    const n=appleCount;
+    const vals=makeChoices(G.q.ans,n);
+    const lanes=shuffle([...Array(n).keys()]);
+    const laneW=w/n;
     const base=(h/4.2)*speedMul*(1+Math.min(G.score,25)*0.02);
     G.apples=vals.map((v,i)=>({
       v, ok:v===G.q.ans,
