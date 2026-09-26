@@ -63,6 +63,8 @@ h1 .p{color:var(--apple)} h1 .k{color:#9A5B2E}
 .group{display:flex;flex-direction:column;gap:8px}
 .label{font-size:14px;color:var(--ink-soft);letter-spacing:.08em}
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.seg.seg4{grid-template-columns:repeat(4,1fr)}
+.seg4 button{font-size:15px}
 .seg button{background:var(--card);border-radius:18px;padding:12px 6px;font-size:17px;box-shadow:0 4px 0 #E8D59E;transition:transform .08s}
 .seg button[aria-pressed="true"]{background:var(--ink);color:#fff;box-shadow:0 4px 0 #120E2A}
 .seg button:active{transform:translateY(3px);box-shadow:0 1px 0 #E8D59E}
@@ -151,10 +153,11 @@ h1 .p{color:var(--apple)} h1 .k{color:#9A5B2E}
     </div>
     <div class="group">
       <span class="label">りんごの はやさ</span>
-      <div class="seg" id="speedSeg">
+      <div class="seg seg4" id="speedSeg">
         <button id="s-1" data-v="0.75" aria-pressed="false"><span class="sym">🐢</span>ゆっくり</button>
         <button id="s-2" data-v="1" aria-pressed="true"><span class="sym">🐻</span>ふつう</button>
-        <button id="s-3" data-v="1.35" aria-pressed="false"><span class="sym">🐇</span>はやい</button>
+        <button id="s-3" data-v="1.4" aria-pressed="false"><span class="sym">🐇</span>はやい</button>
+        <button id="s-4" data-v="1.9" aria-pressed="false"><span class="sym">🚀</span>ロケット</button>
       </div>
     </div>
     <label class="toggle" for="hintToggle">
@@ -433,7 +436,7 @@ h1 .p{color:var(--apple)} h1 .k{color:#9A5B2E}
     const vals=makeChoices(G.q.ans,3);
     const lanes=shuffle([0,1,2]);
     const laneW=w/3;
-    const base=(h/6.2)*speedMul*(1+Math.min(G.score,25)*0.018);
+    const base=(h/4.2)*speedMul*(1+Math.min(G.score,25)*0.02);
     G.apples=vals.map((v,i)=>({
       v, ok:v===G.q.ans,
       x: laneW*lanes[i]+laneW/2 + (Math.random()-.5)*Math.max(0,laneW-r*2.4)*.6,
