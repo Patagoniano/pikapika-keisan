@@ -1,0 +1,17 @@
+{
+  "name": "ぴかぴか けいさん",
+  "short_name": "けいさん",
+  "description": "60びょうで たしざん・ひきざんに チャレンジ！",
+  "lang": "ja",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#FFF3D1",
+  "theme_color": "#FFF3D1",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

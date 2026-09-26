@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>ぴかぴか けいさん</title>
+<meta name="theme-color" content="#FFF3D1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="けいさん">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png">
+<style>
+html{-webkit-text-size-adjust:100%;touch-action:manipulation}
+*{box-sizing:border-box}
+body{margin:0;font-size:14px}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Fredoka:wght@500;600;700&display=swap">
+<style>
+:root{
+  color-scheme: light;
+  --ground:#FFF3D1;
+  --ground2:#FFE7A8;
+  --ink:#2B2350;
+  --ink-soft:#6A6391;
+  --card:#FFFFFF;
+  --coral:#FF6F61;
+  --teal:#1FB8A8;
+  --grape:#8E62EE;
+  --sun:#FFAE1F;
+  --good:#1FA86A;
+  --bad:#E5484D;
+  --round: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
+  --num: "Fredoka", "Zen Maru Gothic", ui-rounded, system-ui, sans-serif;
+}
+html,body{height:100%}
+body{
+  background: radial-gradient(circle at 20% 10%, var(--ground2) 0 18%, transparent 19%) , radial-gradient(circle at 90% 85%, var(--ground2) 0 14%, transparent 15%), var(--ground);
+  color:var(--ink);
+  font-family:var(--round);
+  font-weight:700;
+  padding-inline:16px;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+}
+.app{max-width:560px;margin:0 auto;height:100%;display:flex;flex-direction:column;padding-block:14px;box-sizing:border-box;gap:12px}
+button{font-family:inherit;color:inherit;cursor:pointer;border:0}
+button:focus-visible{outline:4px solid var(--grape);outline-offset:3px}
+h1{font-size:clamp(30px,8vw,44px);margin:0;letter-spacing:.04em;text-wrap:balance;line-height:1.15}
+h1 .p{color:var(--coral)} h1 .k{color:var(--teal)}
+.sub{color:var(--ink-soft);font-size:15px;margin:4px 0 0}
+
+/* ---------- start screen ---------- */
+#start{display:flex;flex-direction:column;gap:16px;flex:1}
+.group{display:flex;flex-direction:column;gap:8px}
+.label{font-size:14px;color:var(--ink-soft);letter-spacing:.08em}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.seg button{
+  background:var(--card);border-radius:18px;padding:14px 6px;font-size:18px;
+  box-shadow:0 4px 0 #E8D59E;transition:transform .08s;
+}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff;box-shadow:0 4px 0 #120E2A}
+.seg button:active{transform:translateY(3px);box-shadow:0 1px 0 #E8D59E}
+.seg .sym{font-family:var(--num);font-size:26px;display:block;line-height:1}
+.toggle{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:18px;padding:12px 14px;box-shadow:0 4px 0 #E8D59E;font-size:17px}
+.toggle input{width:26px;height:26px;accent-color:var(--teal)}
+.preview{background:var(--card);border-radius:24px;padding:14px;text-align:center;box-shadow:0 4px 0 #E8D59E}
+.preview .eq{font-family:var(--num);font-size:40px;font-weight:600}
+.best{font-size:15px;color:var(--ink-soft);text-align:center}
+.best b{font-family:var(--num);font-size:22px;color:var(--coral)}
+.go{
+  margin-top:auto;background:var(--coral);color:#fff;font-size:28px;border-radius:26px;padding:18px;
+  box-shadow:0 7px 0 #C94A3E;letter-spacing:.1em;
+}
+.go:active{transform:translateY(5px);box-shadow:0 2px 0 #C94A3E}
+
+/* ---------- play screen ---------- */
+#play{display:flex;flex-direction:column;gap:12px;flex:1}
+.hud{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pill{background:var(--card);border-radius:999px;padding:6px 14px;font-size:15px;display:flex;align-items:center;gap:6px;box-shadow:0 3px 0 #E8D59E}
+.pill b{font-family:var(--num);font-size:24px;font-variant-numeric:tabular-nums}
+.quit{background:transparent;color:var(--ink-soft);font-size:14px;padding:8px}
+.timebar{height:14px;background:#F2DFA8;border-radius:999px;overflow:hidden}
+.timebar i{display:block;height:100%;width:100%;background:var(--teal);border-radius:999px;transform-origin:left;transition:background .3s}
+.timebar i.hurry{background:var(--coral)}
+.qcard{
+  background:var(--card);border-radius:30px;flex:1;min-height:180px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;box-shadow:0 6px 0 #E8D59E;position:relative;overflow:hidden;
+}
+.qtext{font-family:var(--num);font-weight:600;font-size:clamp(56px,17vw,96px);line-height:1;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.qtext .op{color:var(--grape)}
+.qtext .q{color:var(--sun)}
+.dots{display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:center;max-width:100%;padding-inline:10px}
+.dots .d{display:flex;flex-wrap:wrap;gap:4px;max-width:120px;justify-content:center}
+.dots .d i{width:14px;height:14px;border-radius:50%;background:var(--coral)}
+.dots .d i.b{background:var(--teal)}
+.dots .d i.x{background:transparent;border:2.5px solid var(--teal);box-sizing:border-box;position:relative}
+.dots .d i.x::after{content:"";position:absolute;left:-3px;right:-3px;top:50%;height:2.5px;background:var(--ink);transform:rotate(-45deg)}
+.dots .o{font-family:var(--num);color:var(--grape);font-size:22px}
+.combo{position:absolute;top:12px;right:16px;font-size:15px;color:var(--sun)}
+.combo b{font-family:var(--num);font-size:22px}
+.flash{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:90px;pointer-events:none;opacity:0}
+.flash.ok{animation:pop .45s ease-out}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.choice{
+  font-family:var(--num);font-weight:700;font-size:clamp(40px,12vw,58px);border-radius:26px;padding:12px 0;color:#fff;
+  font-variant-numeric:tabular-nums;transition:transform .07s;
+}
+.choice:nth-child(1){background:var(--coral);box-shadow:0 7px 0 #C94A3E}
+.choice:nth-child(2){background:var(--teal);box-shadow:0 7px 0 #138578}
+.choice:nth-child(3){background:var(--grape);box-shadow:0 7px 0 #6241B8}
+.choice:nth-child(4){background:var(--sun);box-shadow:0 7px 0 #C9820A}
+.choice:active{transform:translateY(5px);box-shadow:none}
+.choice.right{outline:6px solid var(--good);outline-offset:3px}
+.choice.wrong{animation:shake .35s; opacity:.45}
+.choices.lock .choice{pointer-events:none}
+.keyhint{text-align:center;font-size:12px;color:var(--ink-soft);font-weight:500}
+
+/* ---------- result ---------- */
+#result{display:flex;flex-direction:column;gap:14px;flex:1;text-align:center}
+.bigscore{background:var(--card);border-radius:30px;padding:22px 14px;box-shadow:0 6px 0 #E8D59E}
+.bigscore .n{font-family:var(--num);font-size:92px;line-height:1;color:var(--coral);font-weight:700}
+.bigscore .u{font-size:22px}
+.stars{font-size:40px;letter-spacing:6px;margin-top:6px}
+.stars .off{filter:grayscale(1);opacity:.25}
+.msg{font-size:20px}
+.newbest{display:inline-block;background:var(--sun);color:#fff;border-radius:999px;padding:4px 14px;font-size:16px;animation:pop .6s}
+.miss{background:var(--card);border-radius:22px;padding:12px 14px;text-align:left;box-shadow:0 4px 0 #E8D59E}
+.miss h2{font-size:15px;margin:0 0 6px;color:var(--ink-soft)}
+.miss ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.miss li{font-family:var(--num);font-size:20px;background:#FFF3D1;border-radius:12px;padding:4px 10px}
+.miss li b{color:var(--good)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:auto}
+.ghost{background:var(--card);border-radius:22px;padding:16px;font-size:20px;box-shadow:0 5px 0 #E8D59E}
+.row .go{margin-top:0;font-size:22px;padding:16px}
+
+@keyframes pop{0%{opacity:0;transform:scale(.4)}40%{opacity:1;transform:scale(1.15)}100%{opacity:0;transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+@media (max-height:640px){.qcard{min-height:130px}.qtext{font-size:56px}.choice{font-size:38px;padding:8px 0}}
+</style>
+</head>
+<body>
+
+
+<div class="app">
+  <!-- START -->
+  <section id="start">
+    <div>
+      <h1><span class="p">ぴかぴか</span> <span class="k">けいさん</span></h1>
+      <p class="sub">60びょうで なんもん とけるかな？</p>
+    </div>
+
+    <div class="group">
+      <span class="label">どれを する？</span>
+      <div class="seg" id="modeSeg">
+        <button id="m-add" data-v="add" aria-pressed="true"><span class="sym">＋</span>たしざん</button>
+        <button id="m-sub" data-v="sub" aria-pressed="false"><span class="sym">−</span>ひきざん</button>
+        <button id="m-mix" data-v="mix" aria-pressed="false"><span class="sym">±</span>まぜまぜ</button>
+      </div>
+    </div>
+
+    <div class="group">
+      <span class="label">かずの おおきさ</span>
+      <div class="seg" id="rangeSeg">
+        <button id="r-5" data-v="5" aria-pressed="false"><span class="sym">5</span>まで</button>
+        <button id="r-10" data-v="10" aria-pressed="true"><span class="sym">10</span>まで</button>
+        <button id="r-20" data-v="20" aria-pressed="false"><span class="sym">20</span>まで</button>
+      </div>
+    </div>
+
+    <label class="toggle" for="hintToggle">
+      <input type="checkbox" id="hintToggle" checked>
+      ●● で かずを みせる（ヒント）
+    </label>
+
+    <div class="preview"><div class="eq" id="previewEq">3 ＋ 4 ＝ ？</div></div>
+    <div class="best" id="bestLine"></div>
+
+    <button class="go" id="goBtn">スタート！</button>
+  </section>
+
+  <!-- PLAY -->
+  <section id="play" hidden>
+    <div class="hud">
+      <div class="pill">⭐ <b id="score">0</b></div>
+      <div class="pill">⏱ <b id="timeNum">60</b></div>
+      <button class="quit" id="quitBtn">やめる</button>
+    </div>
+    <div class="timebar"><i id="bar"></i></div>
+    <div class="qcard">
+      <div class="combo" id="combo" hidden><b id="comboN">3</b> れんぞく！</div>
+      <div class="qtext" id="qtext"></div>
+      <div class="dots" id="dots"></div>
+      <div class="flash" id="flash">⭕</div>
+    </div>
+    <div class="choices" id="choices">
+      <button class="choice" id="c0"></button>
+      <button class="choice" id="c1"></button>
+      <button class="choice" id="c2"></button>
+      <button class="choice" id="c3"></button>
+    </div>
+    <div class="keyhint">パソコンなら キーボードの 1・2・3・4 でも こたえられるよ</div>
+  </section>
+
+  <!-- RESULT -->
+  <section id="result" hidden>
+    <h1><span class="p">おしまい！</span></h1>
+    <div class="bigscore">
+      <div><span class="n" id="finalScore">0</span><span class="u">もん せいかい</span></div>
+      <div class="stars" id="stars"></div>
+      <div class="msg" id="finalMsg"></div>
+      <div id="newBest" hidden><span class="newbest">じこベスト こうしん！</span></div>
+    </div>
+    <div class="miss" id="missBox" hidden>
+      <h2>まちがえた もんだい（こたえ）</h2>
+      <ul id="missList"></ul>
+    </div>
+    <div class="row">
+      <button class="ghost" id="homeBtn">もどる</button>
+      <button class="go" id="againBtn">もういっかい</button>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const DURATION = 60;
+  let mode = "add", range = 10;
+  let score = 0, combo = 0, answer = 0, cur = null, misses = [], timeLeft = DURATION, timer = null, endAt = 0, running = false;
+
+  // ---------- storage (optional) ----------
+  const key = () => `pkk-best-${mode}-${range}`;
+  function getBest(){ try{ return +(localStorage.getItem(key())||0); }catch(e){ return 0; } }
+  function setBest(v){ try{ localStorage.setItem(key(), v); }catch(e){} }
+
+  // ---------- sound ----------
+  let ac = null;
+  function beep(freqs, dur=0.09, type="triangle", vol=0.18){
+    try{
+      ac = ac || new (window.AudioContext||window.webkitAudioContext)();
+      let t = ac.currentTime;
+      freqs.forEach(f=>{
+        const o = ac.createOscillator(), g = ac.createGain();
+        o.type = type; o.frequency.value = f;
+        g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.001, t+dur);
+        o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t+dur);
+        t += dur*0.8;
+      });
+    }catch(e){}
+  }
+  const sOk = () => beep([784,1047],0.09);
+  const sNg = () => beep([220,180],0.14,"square",0.08);
+  const sEnd = () => beep([523,659,784,1047],0.14);
+
+  // ---------- segmented controls ----------
+  function wireSeg(segId, onPick){
+    $(segId).querySelectorAll("button").forEach(b=>{
+      b.addEventListener("click", ()=>{
+        $(segId).querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", x===b));
+        onPick(b.dataset.v); updateStart();
+      });
+    });
+  }
+  wireSeg("modeSeg", v=> mode=v);
+  wireSeg("rangeSeg", v=> range=+v);
+
+  function updateStart(){
+    const q = makeQ();
+    $("previewEq").textContent = `${q.a} ${q.op==="+"?"＋":"−"} ${q.b} ＝ ？`;
+    const b = getBest();
+    $("bestLine").innerHTML = b ? `このコースの じこベスト：<b>${b}</b> もん` : "はじめての コース！";
+  }
+
+  // ---------- question generator ----------
+  const rnd = (lo,hi) => lo + Math.floor(Math.random()*(hi-lo+1));
+  function makeQ(){
+    const op = mode==="mix" ? (Math.random()<.5?"+":"-") : (mode==="add"?"+":"-");
+    let a,b,ans;
+    if(op==="+"){ ans = rnd(2, range); a = rnd(1, ans-1); b = ans-a; }
+    else { a = rnd(2, range); b = rnd(1, a); ans = a-b; }
+    return {a,b,op,ans};
+  }
+  function makeChoices(ans){
+    const set = new Set([ans]);
+    const cands = [ans+1, ans-1, ans+2, ans-2, ans+10, ans-10, ans+3].filter(n=>n>=0 && n<=range+2);
+    cands.sort(()=>Math.random()-.5).forEach(n=>{ if(set.size<4) set.add(n); });
+    while(set.size<4){ set.add(rnd(0, range)); }
+    return [...set].sort(()=>Math.random()-.5);
+  }
+
+  function dotGroup(n, cls, crossFrom){
+    const d = document.createElement("div"); d.className="d";
+    for(let i=0;i<n;i++){
+      const e=document.createElement("i");
+      if(cls) e.className=cls;
+      if(crossFrom!=null && i>=crossFrom) e.className="x";
+      d.appendChild(e);
+    }
+    return d;
+  }
+
+  function nextQ(){
+    let q; do { q = makeQ(); } while(cur && q.a===cur.a && q.b===cur.b && q.op===cur.op);
+    cur = q; answer = q.ans;
+    $("qtext").innerHTML = `${q.a}<span class="op">${q.op==="+"?"＋":"−"}</span>${q.b}<span class="op">＝</span><span class="q">？</span>`;
+    const dots = $("dots"); dots.innerHTML="";
+    if($("hintToggle").checked){
+      if(q.op==="+"){
+        dots.appendChild(dotGroup(q.a,""));
+        const o=document.createElement("span"); o.className="o"; o.textContent="＋"; dots.appendChild(o);
+        dots.appendChild(dotGroup(q.b,"b"));
+      } else {
+        // show a dots, last b crossed out
+        dots.appendChild(dotGroup(q.a,"b", q.a-q.b));
+      }
+    }
+    const ch = makeChoices(answer);
+    for(let i=0;i<4;i++){
+      const c=$("c"+i); c.textContent=ch[i]; c.dataset.v=ch[i]; c.className="choice";
+    }
+    $("choices").classList.remove("lock");
+  }
+
+  function pick(i){
+    if(!running || $("choices").classList.contains("lock")) return;
+    const btn = $("c"+i), v = +btn.dataset.v;
+    $("choices").classList.add("lock");
+    if(v===answer){
+      score++; combo++; sOk();
+      $("score").textContent=score;
+      const f=$("flash"); f.className="flash"; void f.offsetWidth; f.className="flash ok";
+      if(combo>=3){ $("combo").hidden=false; $("comboN").textContent=combo; }
+      setTimeout(()=>running && nextQ(), 260);
+    } else {
+      combo=0; $("combo").hidden=true; sNg();
+      btn.classList.add("wrong");
+      misses.push(`${cur.a}${cur.op==="+"?"＋":"−"}${cur.b}＝<b>${answer}</b>`);
+      for(let k=0;k<4;k++){ if(+$("c"+k).dataset.v===answer) $("c"+k).classList.add("right"); }
+      setTimeout(()=>running && nextQ(), 1000);
+    }
+  }
+  for(let i=0;i<4;i++) $("c"+i).addEventListener("click", ()=>pick(i));
+  document.addEventListener("keydown", e=>{
+    if(!running) return;
+    const n = "1234".indexOf(e.key); if(n>=0){ e.preventDefault(); pick(n); }
+  });
+
+  function show(id){ ["start","play","result"].forEach(s=>$(s).hidden = s!==id); }
+
+  function tick(){
+    const left = Math.max(0,(endAt - performance.now())/1000);
+    $("timeNum").textContent = Math.ceil(left);
+    const bar=$("bar"); bar.style.transform=`scaleX(${left/DURATION})`;
+    bar.classList.toggle("hurry", left<=10);
+    if(left<=0){ finish(); return; }
+    timer = requestAnimationFrame(tick);
+  }
+
+  function start(){
+    score=0; combo=0; misses=[]; cur=null; running=true;
+    $("score").textContent="0"; $("combo").hidden=true;
+    show("play"); nextQ();
+    beep([523,659],0.08);
+    endAt = performance.now() + DURATION*1000;
+    cancelAnimationFrame(timer); tick();
+  }
+
+  function finish(){
+    running=false; cancelAnimationFrame(timer); sEnd();
+    const best = getBest(), isNew = score>best && score>0;
+    if(isNew) setBest(score);
+    $("finalScore").textContent=score;
+    const starN = score>=25?3: score>=15?2: score>=6?1:0;
+    $("stars").innerHTML = [0,1,2].map(i=>`<span class="${i<starN?"":"off"}">⭐</span>`).join("");
+    $("finalMsg").textContent = starN===3?"すごすぎる！けいさんの はかせだ！": starN===2?"はやい！どんどん つよくなってるね": starN===1?"いいかんじ！もういっかい やってみよう":"れんしゅうすれば ぜったい はやくなるよ";
+    $("newBest").hidden = !isNew;
+    $("missBox").hidden = misses.length===0;
+    $("missList").innerHTML = misses.slice(-12).map(m=>`<li>${m}</li>`).join("");
+    show("result");
+  }
+
+  $("goBtn").addEventListener("click", start);
+  $("againBtn").addEventListener("click", start);
+  $("homeBtn").addEventListener("click", ()=>{ updateStart(); show("start"); });
+  $("quitBtn").addEventListener("click", ()=>{ running=false; cancelAnimationFrame(timer); updateStart(); show("start"); });
+
+  updateStart();
+})();
+</script>
+
+<script>
+if('serviceWorker' in navigator){ window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{})); }
+</script>
+</body>
+</html>
