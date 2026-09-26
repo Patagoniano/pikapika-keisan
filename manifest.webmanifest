@@ -1,7 +1,7 @@
 {
-  "name": "ぴかぴか けいさん",
-  "short_name": "けいさん",
-  "description": "60びょうで たしざん・ひきざんに チャレンジ！",
+  "name": "くまの りんごキャッチ",
+  "short_name": "りんごキャッチ",
+  "description": "くまさんを うごかして こたえの りんごを キャッチ！",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",

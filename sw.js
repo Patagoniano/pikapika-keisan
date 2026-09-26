@@ -1,6 +1,6 @@
-// ぴかぴか けいさん — オフライン用 Service Worker
+// くまの りんごキャッチ — オフライン用 Service Worker
 // 中身を更新したら VERSION の数字を上げると、iPad側も新しい版に切り替わります。
-const VERSION = "v1";
+const VERSION = "v2";
 const CACHE = `pikapika-${VERSION}`;
 const CORE = [
   "./",
