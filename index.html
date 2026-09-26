@@ -95,6 +95,10 @@ h1 .p{color:var(--apple)} h1 .k{color:#9A5B2E}
 .dots .d{display:flex;flex-wrap:wrap;gap:3px;max-width:96px;justify-content:center}
 .dots .d i{width:12px;height:12px;border-radius:50%;background:var(--coral)}
 .dots .d i.b{background:var(--teal)}
+.dots .d.big{max-width:none;align-items:flex-end;gap:3px}
+.dots .d s{display:block;width:8px;height:40px;border-radius:4px;background:var(--coral);background-image:repeating-linear-gradient(to bottom,transparent 0 3px,rgba(255,255,255,.55) 3px 4px);background-size:100% 4px}
+.dots .d s.b{background-color:var(--teal)}
+.dots .d.big i{width:9px;height:9px}
 .dots .d i.x{background:transparent;border:2.5px solid var(--teal);position:relative}
 .dots .d i.x::after{content:"";position:absolute;left:-3px;right:-3px;top:50%;height:2.5px;background:var(--ink);transform:rotate(-45deg)}
 .dots .o{font-family:var(--num);color:var(--grape);font-size:20px}
@@ -145,10 +149,11 @@ h1 .p{color:var(--apple)} h1 .k{color:#9A5B2E}
     </div>
     <div class="group">
       <span class="label">かずの おおきさ</span>
-      <div class="seg" id="rangeSeg">
+      <div class="seg seg4" id="rangeSeg">
         <button id="r-5" data-v="5" aria-pressed="false"><span class="sym">5</span>まで</button>
         <button id="r-10" data-v="10" aria-pressed="true"><span class="sym">10</span>まで</button>
         <button id="r-20" data-v="20" aria-pressed="false"><span class="sym">20</span>まで</button>
+        <button id="r-50" data-v="50" aria-pressed="false"><span class="sym">50</span>まで</button>
       </div>
     </div>
     <div class="group">
@@ -267,7 +272,9 @@ h1 .p{color:var(--apple)} h1 .k{color:#9A5B2E}
   }
   function makeChoices(ans,n){
     const set=new Set([ans]);
-    shuffle([ans+1,ans-1,ans+2,ans-2,ans+3,ans-3].filter(v=>v>=0&&v<=range+2)).forEach(v=>{ if(set.size<n) set.add(v); });
+    const near=[ans+1,ans-1,ans+2,ans-2,ans+3,ans-3];
+    if(range>20) near.unshift(Math.random()<.5?ans+10:ans-10);
+    shuffle(near).sort((x,y)=>(Math.abs(y-ans)===10)-(Math.abs(x-ans)===10)).filter(v=>v>=0&&v<=range+2).forEach(v=>{ if(set.size<n) set.add(v); });
     while(set.size<n) set.add(rnd(0,range));
     return shuffle([...set]);
   }
@@ -425,7 +432,24 @@ h1 .p{color:var(--apple)} h1 .k{color:#9A5B2E}
     $("qtext").innerHTML=`${q.a}<span class="op">${OPS[q.op]}</span>${q.b}<span class="op">＝</span><span class="q">？</span>`;
     const dots=$("dots"); dots.innerHTML="";
     if($("hintToggle").checked){
-      const grp=(n,cls,crossFrom)=>{ const d=document.createElement("div"); d.className="d"; for(let i=0;i<n;i++){ const e=document.createElement("i"); e.className=(crossFrom!=null&&i>=crossFrom)?"x":cls; d.appendChild(e);} return d; };
+      const big = range>20;
+      const grp=(n,cls,crossFrom)=>{
+        const d=document.createElement("div"); d.className="d";
+        if(big){
+          // 10 のかたまりは ぼう1本、のこりは ●
+          d.classList.add("big");
+          const tens=Math.floor(n/10), ones=n%10;
+          for(let i=0;i<tens;i++){ const e=document.createElement("s"); e.className=cls; d.appendChild(e); }
+          for(let i=0;i<ones;i++){ const e=document.createElement("i"); e.className=cls; d.appendChild(e); }
+          return d;
+        }
+        for(let i=0;i<n;i++){ const e=document.createElement("i"); e.className=(crossFrom!=null&&i>=crossFrom)?"x":cls; d.appendChild(e);} return d; };
+      if(q.op==="-" && big){
+        dots.appendChild(grp(q.a,"b"));
+        const o=document.createElement("span"); o.className="o"; o.textContent="−"; dots.appendChild(o);
+        dots.appendChild(grp(q.b,""));
+        return spawnWave();
+      }
       if(q.op==="+"){ dots.appendChild(grp(q.a,"")); const o=document.createElement("span"); o.className="o"; o.textContent="＋"; dots.appendChild(o); dots.appendChild(grp(q.b,"b")); }
       else dots.appendChild(grp(q.a,"b",q.a-q.b));
     }

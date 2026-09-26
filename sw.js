@@ -1,6 +1,6 @@
 // くまの りんごキャッチ — オフライン用 Service Worker
 // 中身を更新したら VERSION の数字を上げると、iPad側も新しい版に切り替わります。
-const VERSION = "v3";
+const VERSION = "v4";
 const CACHE = `pikapika-${VERSION}`;
 const CORE = [
   "./",
